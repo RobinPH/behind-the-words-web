@@ -3,6 +3,22 @@
 
 	export let text: string;
 	export let baseUrl: string = 'http://127.0.0.1:6060';
+	export let error: any;
+
+	const makeEndpoint = (baseUrl: string, endpoint: string) => {
+		error = null;
+		try {
+			const url = new URL(endpoint, baseUrl);
+
+			if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+				return url.toString();
+			} else {
+				return url.toString().replace(/^http\:\/\//i, 'https://');
+			}
+		} catch (e) {
+			throw `Invalid Backend URL (${baseUrl})`;
+		}
+	};
 
 	let isLoading = false;
 </script>
@@ -29,16 +45,22 @@
 
 		isLoading = true;
 
-		const response = await axios.post(new URL('/read-file', baseUrl).toString(), data, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-				'ngrok-skip-browser-warning': 1
-			}
-		});
-
-		isLoading = false;
-
-		text = response.data.text;
+		axios
+			.post(makeEndpoint(baseUrl, '/read-file').toString(), data, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					'ngrok-skip-browser-warning': 1
+				}
+			})
+			.then((response) => {
+				text = response.data.text;
+			})
+			.catch((e) => {
+				error = e;
+			})
+			.finally(() => {
+				isLoading = false;
+			});
 	}}
 	required
 />

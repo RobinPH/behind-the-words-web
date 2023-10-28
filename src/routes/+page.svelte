@@ -75,7 +75,7 @@
 	<h1 class="text-2xl font-bold sm:text-4xl text-info">Behind the Words</h1>
 	<TextareaInput bind:text />
 	<div class="flex items-center justify-between w-full gap-2">
-		<FileUpload bind:text bind:baseUrl />
+		<FileUpload bind:text bind:baseUrl bind:error />
 		<Predict bind:text bind:result bind:includeCNN bind:baseUrl bind:error />
 	</div>
 	{#if error}
