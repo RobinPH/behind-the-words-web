@@ -16,8 +16,7 @@
 	import Subjectivity from '$lib/RelevantFeatures/Subjectivity.svelte';
 	import TextareaInput from '$lib/TextareaInput.svelte';
 
-	let text =
-		'In conclusion, blockchain technology represents a paradigm shift in how we manage data, conduct transactions, and establish trust. Its decentralized and transparent nature has the potential to disrupt various industries, unlocking new possibilities and efficiencies. As the technology continues to evolve, addressing challenges and adapting to regulatory changes will be crucial in realizing the full potential of blockchain and ushering in a new era of trust and transparency in the digital age. The journey of blockchain is not only a technological evolution but a transformative force shaping the future of our interconnected world.';
+	let text = '';
 
 	let result: any;
 	let includeCNN: boolean;
