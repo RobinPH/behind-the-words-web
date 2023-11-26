@@ -1,25 +1,16 @@
 <script lang="ts">
+	import { getResult } from '$lib/BackendUtils';
 	import Result from '$lib/Result.svelte';
+	import { onMount } from 'svelte';
 	import { viewingResult } from '../../../stores/store';
-	export let data: any;
+	import type { PageData } from './$types';
+	export let data: PageData;
 
-	viewingResult.set(data);
+	onMount(async () => {
+		const result = await getResult(data.id);
 
-	$: finalResult = (() => {
-		const finalResult = {};
-
-		if ($viewingResult)
-			for (const r of $viewingResult.result.results) {
-				// @ts-ignore
-				finalResult[r.id] = r;
-			}
-
-		return finalResult;
-	})();
-
-	$: probability = $viewingResult
-		? Math.round($viewingResult.result.probability * 100 * 100) / 100
-		: 0;
+		viewingResult.set(result);
+	});
 </script>
 
 <div class="flex flex-col w-full h-full gap-4 p-4 pt-4 md:pt-8 md:p-16 md:gap-8">

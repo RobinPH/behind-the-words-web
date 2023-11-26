@@ -17,7 +17,7 @@
 	$: finalResult = (() => {
 		const finalResult = {};
 
-		if (result)
+		if (result && result.result)
 			for (const r of result.result.results) {
 				// @ts-ignore
 				finalResult[r.id] = r;

@@ -11,26 +11,6 @@
 	let result: any;
 	let includeCNN: boolean;
 
-	// onMount(() => {
-	// 	predict(text).then((res) => {
-	// 		result = res;
-	// 	});
-	// });
-
-	$: finalResult = (() => {
-		const finalResult = {};
-
-		if (result)
-			for (const r of result.result.results) {
-				// @ts-ignore
-				finalResult[r.id] = r;
-			}
-
-		return finalResult;
-	})();
-
-	$: probability = result ? Math.round(result.result.probability * 100 * 100) / 100 : 0;
-
 	let error: any;
 	let baseUrl = getLocalStorageItem('backend-url', 'http://127.0.0.1:6060');
 	let userId = getLocalStorageItem('user-id', uuidv4());

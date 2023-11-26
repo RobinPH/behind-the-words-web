@@ -29,8 +29,14 @@
 						on:click={() => {
 							viewingResult.set(result);
 							goto(`/result/${result.id}`);
-						}}>{result.text.slice(0, 128)}</label
+						}}
 					>
+						{#if result.text.length > 0}
+							{result.text.slice(0, 128)}
+						{:else}
+							<p class="italic text-gray-400">No Title.</p>
+						{/if}
+					</label>
 					<!-- <a class="max-w-full truncate" href={`/result/${result.id}`}>{result.text.slice(0, 128)}</a> -->
 				</li>
 			{/each}
