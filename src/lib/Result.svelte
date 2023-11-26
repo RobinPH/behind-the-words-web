@@ -39,7 +39,7 @@
 	<Card>
 		<div class="flex justify-between w-full gap-2">
 			<div class="flex flex-col gap-2">
-				{#if result.probability < 0.5}
+				{#if probability < 50}
 					<div class="text-4xl font-bold">Human 🧑</div>
 					<div>
 						Your essay is likely written by <span class="text-lg"><strong>Human</strong></span>
