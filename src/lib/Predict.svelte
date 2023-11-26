@@ -1,52 +1,13 @@
 <script lang="ts">
-	import { default as axios } from 'axios';
+	import { updateUserResults } from '../stores/store';
+	import { predict } from './BackendUtils';
 	export let text: string;
 	export let result: any;
 	export let includeCNN = false;
 	export let baseUrl: string = 'http://127.0.0.1:6060';
 	export let error: any;
 
-	const makeEndpoint = (baseUrl: string, endpoint: string) => {
-		error = null;
-		try {
-			const url = new URL(endpoint, baseUrl);
-
-			if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
-				return url.toString();
-			} else {
-				return url.toString().replace(/^http\:\/\//i, 'https://');
-			}
-		} catch (e) {
-			throw `Invalid Backend URL (${baseUrl})`;
-		}
-	};
-
 	let isLoading = false;
-
-	const predict = (txt: string) => {
-		result = null;
-		return new Promise((resolve, reject) => {
-			const predictEndpoint = includeCNN
-				? makeEndpoint(baseUrl, '/rf-cnn')
-				: makeEndpoint(baseUrl, '/rf');
-			if (typeof predictEndpoint == 'string') {
-				axios
-					.post(
-						predictEndpoint,
-						{
-							text: txt
-						},
-						{
-							headers: {
-								'ngrok-skip-browser-warning': 1
-							}
-						}
-					)
-					.then((response) => resolve(response.data))
-					.catch(reject);
-			}
-		});
-	};
 </script>
 
 <div class="flex items-center gap-2">
@@ -73,9 +34,12 @@
 
 			error = null;
 
-			predict(text)
+			result = null;
+
+			predict(text, includeCNN)
 				.then((res) => {
 					result = res;
+					updateUserResults();
 				})
 				.catch((e) => {
 					error = e;

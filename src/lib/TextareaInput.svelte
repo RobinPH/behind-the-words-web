@@ -6,7 +6,7 @@
 
 <div class="w-full h-[60vh]">
 	<textarea
-		class="w-full h-full textarea textarea-info"
+		class="w-full h-full resize-none textarea textarea-info"
 		placeholder="Enter Essay"
 		bind:value={text}
 	/>
