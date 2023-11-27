@@ -1,6 +1,11 @@
 <script lang="ts">
 	import cx from 'classnames';
-	import { nextInQueue, processingQueue, updateUserResults } from '../stores/store';
+	import {
+		nextInQueue,
+		predictionQueue,
+		processingQueue,
+		updateUserResults
+	} from '../stores/store';
 	import { predict, predictFromFile } from './BackendUtils';
 
 	export let prediction: { id: string; type: 'text' | 'file'; input: any; includeCNN: boolean };
