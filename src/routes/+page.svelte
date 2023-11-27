@@ -25,8 +25,10 @@
 	<!-- <h1 class="text-2xl font-bold sm:text-4xl text-info">Behind the Words</h1> -->
 
 	{#if $predictionQueue.length <= 0}
-		<TextareaInput bind:text />
-		<div class="flex items-center justify-between w-full gap-2">
+		<div class="mb-4 md:mb-0">
+			<TextareaInput bind:text />
+		</div>
+		<div class="flex flex-col items-end justify-between w-full gap-2 md:items-center md:flex-row">
 			<FileUpload bind:text bind:baseUrl bind:error bind:includeCNN />
 			<Predict bind:text bind:result bind:includeCNN bind:baseUrl bind:error />
 		</div>

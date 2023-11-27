@@ -29,7 +29,9 @@
 						>
 					</label>
 				</div>
-				<div class="flex-1 px-2 mx-2 text-lg font-bold text-info">Behind the Words</div>
+				<div class="flex-1 px-2 mx-2 text-lg font-bold text-info">
+					<div class="hidden sm:block">Behind the Words</div>
+				</div>
 				<div class="flex-none">
 					<a
 						class="btn btn-info btn-sm"
