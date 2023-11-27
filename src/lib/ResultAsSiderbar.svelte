@@ -15,7 +15,8 @@
 	aria-label="close sidebar"
 	class={cx(
 		'block max-w-full text-sm duration-150 border-2 border-transparent rounded-md hover:bg-base-100 hover:cursor-pointer hover:translate-x-1',
-		result._new && '!border-success'
+		result._new && '!border-success',
+		$viewingResult && $viewingResult.id === result.id && '!border-info'
 	)}
 	on:click={() => {
 		closeSidebar();
