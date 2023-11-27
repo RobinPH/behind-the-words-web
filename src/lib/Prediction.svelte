@@ -45,7 +45,7 @@
 						predictionResultId.set(res.id);
 					}
 
-					userResults.set([{ ...result, _new: true }, ...$userResults]);
+					userResults.update((results) => [{ ...result, _new: true }, ...results]);
 
 					isCompleted = true;
 					// updateUserResults();

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import cx from 'classnames';
-	import { viewingResult } from '../stores/store';
+	import { userResults, viewingResult } from '../stores/store';
 	import { closeSidebar } from '../utils/sidebar';
 	import { getResult } from './BackendUtils';
 
@@ -22,6 +22,16 @@
 		getResult(result.id).then(viewingResult.set);
 		// viewingResult.set(result);
 		goto(`/result/${result.id}`);
+
+		userResults.update((results) => {
+			return results.map((res) => {
+				if (res === result) {
+					delete result._new;
+				}
+
+				return res;
+			});
+		});
 	}}
 >
 	<div class="mx-4 my-2">
