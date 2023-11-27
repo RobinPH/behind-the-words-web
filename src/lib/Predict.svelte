@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
+	import { predictionQueue } from '../stores/store';
 	export let text: string;
-	export let result: any;
+	export let resultId: any;
 	export let includeCNN = false;
 	export let baseUrl: string = 'http://127.0.0.1:6060';
 	export let error: any;
-	export let predictionTask;
 
 	let isLoading = false;
 </script>
@@ -30,14 +30,14 @@
 		class="btn btn-info"
 		disabled={isLoading}
 		on:click={async () => {
-			predictionTask = {
-				id: uuidv4(),
-				type: 'text',
-				input: {
-					text
-				},
-				includeCNN
-			};
+			// predictionTask = {
+			// 	id: uuidv4(),
+			// 	type: 'text',
+			// 	input: {
+			// 		text
+			// 	},
+			// 	includeCNN
+			// };
 
 			// isLoading = true;
 
@@ -45,16 +45,19 @@
 
 			// result = null;
 
-			// predictionQueue.set([
-			// 	{
-			// 		id: uuidv4(),
-			// 		type: 'text',
-			// 		input: {
-			// 			text
-			// 		},
-			// 		includeCNN
-			// 	}
-			// ]);
+			predictionQueue.set([
+				{
+					id: uuidv4(),
+					type: 'text',
+					input: {
+						text
+					},
+					includeCNN,
+					callback: (result) => {
+						resultId = result.id;
+					}
+				}
+			]);
 
 			// predict(text, includeCNN)
 			// 	.then((res) => {

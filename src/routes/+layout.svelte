@@ -7,7 +7,7 @@
 <div data-theme="dracula" class="min-h-screen">
 	<div class="drawer">
 		<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
-		<div class="sticky top-0 hidden h-screen bg-white lg:block">
+		<div class="sticky top-0 hidden h-screen bg-white w-72 lg:block">
 			<Sidebar />
 		</div>
 		<div class="flex flex-col drawer-content">

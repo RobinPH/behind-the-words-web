@@ -1,15 +1,15 @@
 <script lang="ts">
 	import cx from 'classnames';
-	import {
-		nextInQueue,
-		predictionQueue,
-		predictionResultId,
-		processingQueue,
-		updateUserResults
-	} from '../stores/store';
+	import { nextInQueue, predictionResultId, processingQueue, userResults } from '../stores/store';
 	import { predict, predictFromFile } from './BackendUtils';
 
-	export let prediction: { id: string; type: 'text' | 'file'; input: any; includeCNN: boolean };
+	export let prediction: {
+		id: string;
+		type: 'text' | 'file';
+		input: any;
+		includeCNN: boolean;
+		callback: (res: any) => {};
+	};
 	export let forceStart = false;
 	export let store = false;
 
@@ -38,16 +38,20 @@
 				.then((res) => {
 					result = res;
 
+					prediction.callback?.(result);
+
 					if (store) {
 						predictionResultId.set(res.id);
 					}
 
-					isCompleted = true;
-					updateUserResults();
+					userResults.set([result, ...$userResults]);
 
-					if ($predictionQueue.length === 1) {
-						redirectToResultPage();
-					}
+					isCompleted = true;
+					// updateUserResults();
+
+					// if ($predictionQueue.length === 1) {
+					// 	redirectToResultPage();
+					// }
 				})
 				.catch((e) => {
 					error = e;
@@ -82,9 +86,57 @@
 	$: label = probability < 50 ? 'Human 🧑' : 'LLM 🤖';
 </script>
 
-<div
+{#if !(isCompleted && result)}
+	<div
+		aria-label="close sidebar"
+		class={cx(
+			'block max-w-full border-2 text-sm duration-150 rounded-md',
+			!prediction.isProcessing && 'border-gray-400',
+			prediction.isProcessing && 'border-info',
+			isCompleted && 'border-success hover:cursor-pointer hover:translate-x-1 duration-150'
+		)}
+		on:click={() => {
+			// closeSidebar();
+			// viewingResult.set(result);
+			// goto(`/result/${result.id}`);
+		}}
+	>
+		<div class="mx-4 my-2">
+			<div class="truncate">
+				{#if prediction.type === 'text'}
+					{truncate(prediction.input.text, 128)}
+				{:else}
+					{prediction.input.filename}
+				{/if}
+			</div>
+			<div class="flex justify-between">
+				<p class="w-full text-xs italic text-gray-400 truncate">
+					{#if isCompleted}
+						{#if result}
+							Result: <span class="text-lg">{label}</span>
+						{:else}
+							Completed
+						{/if}
+					{:else if prediction.isProcessing}
+						<span>Processing</span>
+						{#if partialResult}
+							({partialResult.current_task_index + 1}/{partialResult.total_tasks}) {partialResult.current_task}
+						{/if}
+					{:else if !prediction.isProcessing}
+						Queued
+					{/if}
+				</p>
+				<!-- <p class="w-full text-xs font-bold text-right">
+        {probability}%
+      </p> -->
+			</div>
+		</div>
+	</div>
+{/if}
+
+<!-- <div
 	class={cx(
-		'max-w-full border-2 shadow-xl card bg-base-100',
+		'max-w-full text-sm duration-150 rounded-md hover:bg-base-100 hover:cursor-pointer hover:translate-x-1',
 		!prediction.isProcessing && 'border-gray-400',
 		prediction.isProcessing && 'border-info',
 		isCompleted && 'border-success hover:cursor-pointer hover:translate-x-1 duration-150'
@@ -132,4 +184,4 @@
 			</div>
 		{/if}
 	</div>
-</div>
+</div> -->
