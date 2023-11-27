@@ -65,7 +65,7 @@
 				<span>Error: {error}</span>
 			</div>
 		{/if}
-		{#if predictionTask}
+		{#if predictionTask && !realResult}
 			{#each [predictionTask] as prediction (prediction.id)}
 				<Prediction {prediction} forceStart={true} store={true} />
 			{/each}
