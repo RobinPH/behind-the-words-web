@@ -1,6 +1,7 @@
 <script>
 	import Sidebar from '$lib/Sidebar.svelte';
 	import '../app.css';
+	import { predictionQueue } from '../stores/store';
 </script>
 
 <div data-theme="dracula" class="min-h-screen">
@@ -30,7 +31,13 @@
 				</div>
 				<div class="flex-1 px-2 mx-2 text-lg font-bold text-info">Behind the Words</div>
 				<div class="flex-none">
-					<a class="btn btn-info btn-sm" href="/">NEW</a>
+					<a
+						class="btn btn-info btn-sm"
+						href="/"
+						on:click={() => {
+							predictionQueue.set([]);
+						}}>NEW</a
+					>
 				</div>
 			</div>
 			<!-- Page content here -->

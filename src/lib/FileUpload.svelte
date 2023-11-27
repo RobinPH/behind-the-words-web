@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { default as axios } from 'axios';
+	import { v4 as uuidv4 } from 'uuid';
+	import { predictionQueue } from '../stores/store';
 
 	export let text: string;
+	export let includeCNN = false;
 	export let baseUrl: string = 'http://127.0.0.1:6060';
 	export let error: any;
 
@@ -34,33 +36,46 @@
 	class:hidden={isLoading}
 	class="w-full max-w-xs file-input file-input-bordered file-input-info"
 	accept=".txt,.pdf,.docx,.doc"
+	multiple
 	on:change={async (event) => {
 		event.preventDefault();
 
-		// @ts-ignore
-		const file = event.target.files[0];
-
-		const data = new FormData();
-		data.append('file', file);
-
-		isLoading = true;
-
-		axios
-			.post(makeEndpoint(baseUrl, '/read-file').toString(), data, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					'ngrok-skip-browser-warning': 1
-				}
+		predictionQueue.set(
+			// @ts-ignore
+			Array.from(event.target.files).map((file) => {
+				return {
+					id: uuidv4(),
+					type: 'file',
+					input: {
+						// @ts-ignore
+						filename: file.name,
+						file
+					},
+					includeCNN
+				};
 			})
-			.then((response) => {
-				text = response.data.text;
-			})
-			.catch((e) => {
-				error = e;
-			})
-			.finally(() => {
-				isLoading = false;
-			});
+		);
+
+		// isLoading = true;
+
+		// axios
+		// 	.post(makeEndpoint(baseUrl, '/predict-from-file').toString(), data, {
+		// 		headers: {
+		// 			'Content-Type': 'multipart/form-data',
+		// 			'ngrok-skip-browser-warning': 1
+		// 		}
+		// 	})
+		// 	.then((response) => {
+		// 		text = response.data.text;
+
+		// 		updateUserResults();
+		// 	})
+		// 	.catch((e) => {
+		// 		error = e;
+		// 	})
+		// 	.finally(() => {
+		// 		isLoading = false;
+		// 	});
 	}}
 	required
 />

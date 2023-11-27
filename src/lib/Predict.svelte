@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { updateUserResults } from '../stores/store';
-	import { predict } from './BackendUtils';
+	import { v4 as uuidv4 } from 'uuid';
+	import { predictionQueue } from '../stores/store';
 	export let text: string;
 	export let result: any;
 	export let includeCNN = false;
@@ -36,17 +36,28 @@
 
 			result = null;
 
-			predict(text, includeCNN)
-				.then((res) => {
-					result = res;
-					updateUserResults();
-				})
-				.catch((e) => {
-					error = e;
-				})
-				.finally(() => {
-					isLoading = false;
-				});
+			predictionQueue.set([
+				{
+					id: uuidv4(),
+					type: 'text',
+					input: {
+						text
+					},
+					includeCNN
+				}
+			]);
+
+			// predict(text, includeCNN)
+			// 	.then((res) => {
+			// 		result = res;
+			// 		updateUserResults();
+			// 	})
+			// 	.catch((e) => {
+			// 		error = e;
+			// 	})
+			// 	.finally(() => {
+			// 		isLoading = false;
+			// 	});
 		}}
 	>
 		{#if isLoading}
