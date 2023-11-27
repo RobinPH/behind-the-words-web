@@ -5,6 +5,7 @@
 	import Prediction from './Prediction.svelte';
 	import ResultAsSiderbar from './ResultAsSiderbar.svelte';
 
+	export let noProgress = false;
 	let results: any[] = [];
 
 	userResults.subscribe((res) => {
@@ -42,9 +43,11 @@
 		</div>
 	</div>
 	<ul class="flex flex-col w-full gap-1 overflow-x-hidden overflow-y-auto">
-		{#each $predictionQueue.reverse() as prediction (prediction.id)}
-			<Prediction {prediction} />
-		{/each}
+		{#if !noProgress}
+			{#each [...$predictionQueue].reverse() as prediction (prediction.id)}
+				<Prediction {prediction} />
+			{/each}
+		{/if}
 		{#if results.length === 0}
 			<p class="text-sm italic text-gray-400">No history.</p>
 		{:else}

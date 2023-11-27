@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
 	import { predictionQueue } from '../stores/store';
+	import { openSidebar } from '../utils/sidebar';
 
 	export let text: string;
 	export let includeCNN = false;
@@ -55,6 +56,8 @@
 				};
 			})
 		);
+
+		openSidebar();
 
 		// isLoading = true;
 

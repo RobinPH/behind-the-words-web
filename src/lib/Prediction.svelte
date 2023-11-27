@@ -12,6 +12,7 @@
 	};
 	export let forceStart = false;
 	export let store = false;
+	export let show = true;
 
 	let isLoading = true;
 	let isCompleted = false;
@@ -44,7 +45,7 @@
 						predictionResultId.set(res.id);
 					}
 
-					userResults.set([result, ...$userResults]);
+					userResults.set([{ ...result, _new: true }, ...$userResults]);
 
 					isCompleted = true;
 					// updateUserResults();
@@ -54,6 +55,7 @@
 					// }
 				})
 				.catch((e) => {
+					console.log(e);
 					error = e;
 				})
 				.finally(() => {
@@ -86,7 +88,7 @@
 	$: label = probability < 50 ? 'Human 🧑' : 'LLM 🤖';
 </script>
 
-{#if !(isCompleted && result)}
+{#if !(isCompleted && result) && show}
 	<div
 		aria-label="close sidebar"
 		class={cx(

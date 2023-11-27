@@ -1,7 +1,6 @@
 <script>
 	import Sidebar from '$lib/Sidebar.svelte';
 	import '../app.css';
-	import { predictionQueue } from '../stores/store';
 </script>
 
 <div data-theme="dracula" class="min-h-screen">
@@ -33,13 +32,7 @@
 					<div class="hidden sm:block">Behind the Words</div>
 				</div>
 				<div class="flex-none">
-					<a
-						class="btn btn-info btn-sm"
-						href="/"
-						on:click={() => {
-							predictionQueue.set([]);
-						}}>NEW</a
-					>
+					<a class="btn btn-info btn-sm" href="/">NEW</a>
 				</div>
 			</div>
 			<!-- Page content here -->
@@ -47,7 +40,7 @@
 		</div>
 		<div class="z-10 grid drawer-side lg:hidden">
 			<label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay" />
-			<Sidebar />
+			<Sidebar noProgress={true} />
 		</div>
 	</div>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import cx from 'classnames';
 	import { viewingResult } from '../stores/store';
 	import { closeSidebar } from '../utils/sidebar';
 	import { getResult } from './BackendUtils';
@@ -12,7 +13,10 @@
 
 <div
 	aria-label="close sidebar"
-	class="block max-w-full text-sm duration-150 border-2 border-transparent rounded-md hover:bg-base-100 hover:cursor-pointer hover:translate-x-1"
+	class={cx(
+		'block max-w-full text-sm duration-150 border-2 border-transparent rounded-md hover:bg-base-100 hover:cursor-pointer hover:translate-x-1',
+		result._new && '!border-success'
+	)}
 	on:click={() => {
 		closeSidebar();
 		getResult(result.id).then(viewingResult.set);
