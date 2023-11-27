@@ -16,7 +16,7 @@
 			<span class="label-text">Include CNN</span>
 			<input type="checkbox" bind:checked={includeCNN} class="checkbox checkbox-info checkbox-sm" />
 		</label>
-		<label class="flex justify-end gap-2 cursor-pointer label">
+		<!-- <label class="flex justify-end gap-2 cursor-pointer label">
 			<span class="label-text">Backend URL</span>
 			<input
 				type="url"
@@ -24,7 +24,7 @@
 				class="w-72 input input-bordered input-xs"
 				bind:value={baseUrl}
 			/>
-		</label>
+		</label> -->
 	</div>
 	<button
 		class="btn btn-info"

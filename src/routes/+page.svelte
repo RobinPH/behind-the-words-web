@@ -17,7 +17,7 @@
 	let baseUrl = getLocalStorageItem('backend-url', 'http://127.0.0.1:6060');
 	let userId = getLocalStorageItem('user-id', uuidv4());
 
-	$: if (baseUrl != undefined) setLocalStorageItem('backend-url', baseUrl);
+	// $: if (baseUrl != undefined) setLocalStorageItem('backend-url', baseUrl);
 	$: setLocalStorageItem('user-id', userId);
 </script>
 

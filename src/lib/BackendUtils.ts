@@ -2,7 +2,8 @@ import { default as axios } from 'axios';
 
 import { getLocalStorageItem } from './LocalStorageUtils';
 
-const getBaseUrl = () => getLocalStorageItem('backend-url', 'http://127.0.0.1:6060');
+const getBaseUrl = () =>
+	getLocalStorageItem('override-backend-url', 'https://885f-128-199-73-133.ngrok-free.app');
 
 const makeEndpoint = (endpoint: string) => {
 	const baseUrl = getBaseUrl();
