@@ -135,6 +135,28 @@ export const getResult = (id: string) => {
 	});
 };
 
+export const clearHistory = () => {
+	return new Promise((resolve, reject) => {
+		axios
+			.post(
+				makeEndpoint(`/clear-history`),
+				{
+					user_id: getLocalStorageItem('user-id')
+				},
+				{
+					headers: {
+						'ngrok-skip-browser-warning': 1
+					}
+				}
+			)
+			.then((response) => {
+				resolve(response.data);
+				updateUserResults();
+			})
+			.catch(reject);
+	});
+};
+
 const streamRequest = (method, url, body, headers = {}, callback = () => {}) => {
 	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
@@ -198,5 +220,6 @@ export const getUserResults = (id: string) => {
 };
 
 import { writable } from 'svelte/store';
+import { updateUserResults } from '../stores/store';
 
 const useResults = writable([]);
