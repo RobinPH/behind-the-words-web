@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { updateUserResults, userResults, viewingResult } from '../stores/store';
+	import { predictionQueue, updateUserResults, userResults, viewingResult } from '../stores/store';
 
 	let results: any[] = [];
 
@@ -28,6 +28,7 @@
 						class="block max-w-full px-4 py-2 text-sm truncate duration-150 rounded-md hover:bg-base-100 hover:cursor-pointer hover:translate-x-1"
 						on:click={() => {
 							viewingResult.set(result);
+							predictionQueue.set([]);
 							goto(`/result/${result.id}`);
 						}}
 					>

@@ -79,7 +79,7 @@
 		'max-w-full border-2 shadow-xl card bg-base-100',
 		!prediction.isProcessing && 'border-gray-400',
 		prediction.isProcessing && 'border-info',
-		isCompleted && 'border-success hover:cursor-pointer'
+		isCompleted && 'border-success hover:cursor-pointer hover:translate-x-1 duration-150'
 	)}
 	on:click={() => {
 		redirectToResultPage(true);
@@ -89,11 +89,11 @@
 		{#if prediction.isProcessing && !isCompleted}
 			<div class="loading loading-bars loading-lg" />
 		{/if}
-		<div>
+		<div class="w-full">
 			<p class="w-full text-sm font-bold truncate">
 				{#if isCompleted}
 					{#if result}
-						{label} ({probability}%)
+						Result: <span class="text-lg">{label}</span>
 					{:else}
 						Completed
 					{/if}
@@ -115,5 +115,13 @@
 				{/if}
 			</p>
 		</div>
+		{#if result}
+			<div class="flex flex-row gap-2 min-w-fit">
+				<div class="text-xs font-bold text-gray-400 min-w-fit">LLM-meter</div>
+				<div class="text-4xl font-bold">
+					{probability}%
+				</div>
+			</div>
+		{/if}
 	</div>
 </div>
