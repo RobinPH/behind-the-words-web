@@ -16,7 +16,7 @@
 
 	export let props: Props;
 	export let description =
-		'Assessing the number of repetition or frequency of repeated words in a particular text.';
+		'Calculates the number of repeated words in a text. The percentage of duplicate words to the number of words in a text.';
 
 	const repeats =
 		props.metadata.repetitive_words.reduce((acc, val) => acc + val[1], 0) -
@@ -24,7 +24,7 @@
 </script>
 
 <Card>
-	<div class="text-2xl flex gap-2 items-center justify-between">
+	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Repetitive Words</h1>
 		<div class="underline">
 			<span>{repeats}</span>
@@ -33,5 +33,5 @@
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="progress w-full" value={repeats} max={props.metadata._word_count} />
+	<progress class="w-full progress" value={repeats} max={props.metadata._word_count} />
 </Card>

@@ -71,26 +71,30 @@
 		},
 		yulek: {
 			label: 'Yule’s K',
-			description: 'Yule’s K (Yule 1944, Tweedie and Baayen 1998).',
+			description:
+				'The measure of lexical repetition constitutes one of the variables used to determine the lexical richness of literary texts. Yule’s K (Yule 1944, Tweedie and Baayen 1998).',
 			min: 0,
 			max: 277.73786041259757
 		},
 		herdanvm: {
 			label: 'Herdan’s Vm',
-			description: 'Herdan’s Vm (Herdan 1955, Tweedie and Baayen 1998)',
+			description:
+				'Measure of lexical richness that takes into account both the number of unique words in a text (V) and the number of words in the text (N). Herdan’s Vm (Herdan 1955, Tweedie and Baayen 1998)',
 			min: 0,
 			max: 0.14314068108797073
 		},
 		simpsond: {
 			label: 'Simpson’s D',
-			description: 'Simpson’s D (Simpson 1949, Tweedie and Baayen 1998)',
+			description:
+				'Method for calculating the species diversity within a community. Simpson’s D (Simpson 1949, Tweedie and Baayen 1998)',
 			min: 0,
 			max: 0.028232975639402844
 		}
 	};
 
 	export let props: Props;
-	export let description = 'Measures the variety and richness of vocabulary in the text.';
+	export let description =
+		'It is assessed to measure the variety and richness of vocabulary in the text. The LexicalRichness Python library is employed for this purpose.';
 
 	const formatScore = (score: number) => Math.round(score * 100) / 100;
 </script>

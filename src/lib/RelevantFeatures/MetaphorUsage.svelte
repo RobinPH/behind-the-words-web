@@ -15,7 +15,8 @@
 	};
 
 	export let props: Props;
-	export let description = 'Metaphor usage score';
+	export let description =
+		'The metaphor usage score for each sentence and calcuate the average, the methodology is based on the principles outlined in the study conducted by Gao, E. Choi, et.al (2018).';
 
 	const score = Math.round(props.result.metaphor_usage_score * 100 * 100) / 100;
 
@@ -23,18 +24,18 @@
 </script>
 
 <Card>
-	<div class="text-2xl flex gap-2 items-center justify-between">
+	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Metaphor Usage Score</h1>
 		<div class="underline">
 			<span>{score}%</span>
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="progress w-full" value={props.result.metaphor_usage_score} max={1} />
+	<progress class="w-full progress" value={props.result.metaphor_usage_score} max={1} />
 
-	<div class="flex flex-col gap-4 pt-4 max-h-96 overflow-y-auto">
+	<div class="flex flex-col gap-4 pt-4 overflow-y-auto max-h-96">
 		{#each props.metadata.sentences as { sentence, score }}
-			<div class="bg-slate-600 p-4 rounded-lg">
+			<div class="p-4 rounded-lg bg-slate-600">
 				<div>
 					<span class="font-semibold">Sentence: </span>
 					<span class="text-gray-400">{sentence}</span>
@@ -43,7 +44,7 @@
 					<span class="font-semibold min-w-fit">Metaphor Usage Score: </span>
 					<span class="underline">{formatScore(score)}%</span>
 				</div>
-				<progress class="progress w-full" value={score} max={1} />
+				<progress class="w-full progress" value={score} max={1} />
 			</div>
 		{/each}
 	</div>

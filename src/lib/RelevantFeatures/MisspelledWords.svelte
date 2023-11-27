@@ -20,11 +20,11 @@
 
 	export let props: Props;
 	export let description =
-		'Identifies words that are misspelled. Average of the number of misspelled words in an essay.';
+		'Identifies words that are misspelled. The percentage of misspelled words to number of words in a text.';
 </script>
 
 <Card>
-	<div class="text-2xl flex gap-2 items-center justify-between">
+	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Misspelled Words</h1>
 		<div class="underline">
 			<span>{props.metadata.mispelled_words.length}</span>
@@ -34,7 +34,7 @@
 	</div>
 	<p class="text-gray-400">{description}</p>
 	<progress
-		class="progress w-full"
+		class="w-full progress"
 		value={props.metadata.mispelled_words.length}
 		max={props.result._word_count}
 	/>

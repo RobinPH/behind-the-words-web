@@ -18,7 +18,7 @@
 
 	export let props: Props;
 	export let description =
-		'Calculates a score indicating the number and severity of grammar errors in the text.';
+		'A score indicating the number and severity of grammar errors in a text.';
 
 	const score = Math.round(props.result.grammar_score * 100 * 100) / 100;
 </script>

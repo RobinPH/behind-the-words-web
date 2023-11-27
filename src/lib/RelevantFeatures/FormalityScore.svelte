@@ -33,7 +33,7 @@
 	] as const;
 
 	export let props: Props;
-	export let description = 'Evaluates the level of formality in the text.';
+	export let description = `Evaluates the level of formality of a text using Heylighen & Dewaele's (1999) F-measure.`;
 
 	const score = Math.round(props.result.formality_score * 100 * 100) / 100;
 
@@ -66,22 +66,30 @@
 </script>
 
 <Card>
-	<div class="text-2xl flex gap-2 items-center justify-between">
+	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Formality Score</h1>
 		<div class="underline">
 			<span>{score}%</span>
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<!-- <div class="w-full flex justify-center">
+	<!-- <div class="flex justify-center w-full">
 		{formalityEquation}
 	</div> -->
-	<progress class="progress w-full" value={props.result.formality_score} max={1} />
-	{#each show as key}
+	<progress class="w-full progress" value={props.result.formality_score} max={1} />
+	<div class="flex flex-row flex-wrap gap-2 pt-4">
+		{#each show as key}
+			<div class="p-2 rounded-lg bg-slate-600">
+				<span class="font-bold">{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+				<span> ({props.metadata[key].length})</span>
+			</div>
+		{/each}
+	</div>
+	<!-- {#each show as key}
 		<div class="overflow-x-auto">
 			<span class="font-bold">{key.charAt(0).toUpperCase() + key.slice(1)}</span>
 			<span> ({props.metadata[key].length}): </span>
 			<span class="text-gray-400">{props.metadata[key].join(', ')}</span>
 		</div>
-	{/each}
+	{/each} -->
 </Card>

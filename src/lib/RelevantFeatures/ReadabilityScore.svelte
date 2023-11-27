@@ -79,7 +79,7 @@
 
 	export let props: Props;
 	export let description =
-		"Assesses the text's readability, usually by considering factors like sentence length, complexity, and vocabulary.";
+		"Assesses the text's readability, usually by considering factors like sentence length, complexity, and vocabulary. The implementation utilizes Textstat to compute a readability score for the given text.";
 
 	const formatScore = (score: number) => Math.round(score * 100) / 100;
 </script>
