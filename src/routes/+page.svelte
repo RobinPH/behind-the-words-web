@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getResult } from '$lib/BackendUtils';
 	import FileUpload from '$lib/FileUpload.svelte';
 	import { getLocalStorageItem, setLocalStorageItem } from '$lib/LocalStorageUtils';
 	import Predict from '$lib/Predict.svelte';
@@ -6,16 +7,31 @@
 	import Result from '$lib/Result.svelte';
 	import TextareaInput from '$lib/TextareaInput.svelte';
 	import { v4 as uuidv4 } from 'uuid';
-	import { predictionQueue } from '../stores/store';
+	import { predictionQueue, predictionResultId } from '../stores/store';
 
 	let text = '';
 
 	let result: any;
+	let realResult: any;
+	let resultId: any;
+
+	$: if ($predictionResultId) {
+		realResult = null;
+		getResult($predictionResultId).then((res) => {
+			realResult = res;
+		});
+	}
+
 	let includeCNN: boolean;
 
 	let error: any;
 	let baseUrl = getLocalStorageItem('backend-url', 'http://127.0.0.1:6060');
 	let userId = getLocalStorageItem('user-id', uuidv4());
+	let predictionTask: any;
+
+	$: if (predictionTask) {
+		realResult = null;
+	}
 
 	// $: if (baseUrl != undefined) setLocalStorageItem('backend-url', baseUrl);
 	$: setLocalStorageItem('user-id', userId);
@@ -30,7 +46,7 @@
 		</div>
 		<div class="flex flex-col items-end justify-between w-full gap-2 md:items-center md:flex-row">
 			<FileUpload bind:text bind:baseUrl bind:error bind:includeCNN />
-			<Predict bind:text bind:result bind:includeCNN bind:baseUrl bind:error />
+			<Predict bind:text bind:result bind:includeCNN bind:baseUrl bind:error bind:predictionTask />
 		</div>
 		{#if error}
 			<div class="alert alert-error">
@@ -49,8 +65,15 @@
 				<span>Error: {error}</span>
 			</div>
 		{/if}
-		{#if result}
-			<Result {result} />
+		{#if predictionTask}
+			{#each [predictionTask] as prediction (prediction.id)}
+				<Prediction {prediction} forceStart={true} store={true} />
+			{/each}
+		{/if}
+		{#if realResult}
+			{#each [realResult] as res (res.id)}
+				<Result result={res} />
+			{/each}
 		{/if}
 	{:else}
 		<div class="flex flex-col w-full gap-4">

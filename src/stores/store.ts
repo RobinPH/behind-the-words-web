@@ -35,3 +35,5 @@ export const nextInQueue = () => {
 predictionQueue.subscribe(() => {
 	nextInQueue();
 });
+
+export const predictionResultId = writable();

@@ -3,19 +3,23 @@
 	import {
 		nextInQueue,
 		predictionQueue,
+		predictionResultId,
 		processingQueue,
 		updateUserResults
 	} from '../stores/store';
 	import { predict, predictFromFile } from './BackendUtils';
 
 	export let prediction: { id: string; type: 'text' | 'file'; input: any; includeCNN: boolean };
+	export let forceStart = false;
+	export let store = false;
+
 	let isLoading = true;
 	let isCompleted = false;
-	let result;
+	export let result = null;
 	let error;
 	let partialResult;
 
-	$: if (!prediction.isProcessing && $processingQueue === prediction.id) {
+	$: if ((!prediction.isProcessing && $processingQueue === prediction.id) || forceStart) {
 		let promise;
 
 		if (prediction.type === 'text') {
@@ -32,8 +36,12 @@
 			prediction.isProcessing = true;
 			promise
 				.then((res) => {
-					// console.log({ res });
 					result = res;
+
+					if (store) {
+						predictionResultId.set(res.id);
+					}
+
 					isCompleted = true;
 					updateUserResults();
 
