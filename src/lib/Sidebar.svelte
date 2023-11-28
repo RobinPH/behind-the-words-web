@@ -63,7 +63,7 @@
 			<ProcessingPredictionTaskcopy {predictionTask} />
 		{/each}
 
-		{#if results.length === 0}
+		{#if results.length + $predictionTaskQueue.length + $processingPredictionTasks.length === 0}
 			<p class="text-sm italic text-gray-400">No history.</p>
 		{:else}
 			{#each results as result}
