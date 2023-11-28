@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { predictionQueue, updateUserResults, userResults } from '../stores/store';
+	import {
+		predictionTaskQueue,
+		processingPredictionTasks,
+		updateUserResults,
+		userResults
+	} from '../stores/store';
 	import { clearHistory } from './BackendUtils';
-	import Prediction from './Prediction.svelte';
+	import ProcessingPredictionTaskcopy from './ProcessingPredictionTask copy.svelte';
+	import { default as QueuedPredictionTask } from './QueuedPredictionTask.svelte';
 	import ResultAsSiderbar from './ResultAsSiderbar.svelte';
 
 	export let noProgress = false;
@@ -43,11 +49,20 @@
 		</div>
 	</div>
 	<ul class="flex flex-col w-full gap-1 overflow-x-hidden overflow-y-auto">
-		{#if !noProgress}
+		<!-- {#if !noProgress}
 			{#each [...$predictionQueue].reverse() as prediction (prediction.id)}
 				<Prediction {prediction} />
 			{/each}
-		{/if}
+		{/if} -->
+
+		{#each [...$predictionTaskQueue].reverse() as predictionTask (predictionTask.id)}
+			<QueuedPredictionTask {predictionTask} />
+		{/each}
+
+		{#each [...$processingPredictionTasks].reverse() as predictionTask (predictionTask.id)}
+			<ProcessingPredictionTaskcopy {predictionTask} />
+		{/each}
+
 		{#if results.length === 0}
 			<p class="text-sm italic text-gray-400">No history.</p>
 		{:else}

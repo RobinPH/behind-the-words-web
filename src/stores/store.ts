@@ -1,8 +1,9 @@
-import { getUserResults } from '$lib/BackendUtils';
+import { getUserResults, predict, predictFromFile } from '$lib/BackendUtils';
 import { getLocalStorageItem } from '$lib/LocalStorageUtils';
 import { get, writable } from 'svelte/store';
+import type { PartialResult, PredictionResult, PredictionTask } from '../types/types';
 
-export const userResults = writable([]);
+export const userResults = writable<PredictionResult[]>([]);
 
 export const updateUserResults = async () => {
 	const results = await getUserResults(getLocalStorageItem('user-id'));
@@ -11,29 +12,82 @@ export const updateUserResults = async () => {
 
 export const viewingResult = writable();
 
-export const predictionQueue = writable<any[]>([]);
+export const predictionTaskQueue = writable<PredictionTask[]>([]);
 
-export const processingQueue = writable<string | undefined>();
+export const processingPredictionTasks = writable<PredictionTask[]>([]);
 
-export const nextInQueue = () => {
-	const processing = get(processingQueue);
-	const queue = get(predictionQueue);
+export const queuePredictionTasks = (...predictionTasks: PredictionTask[]) => {
+	predictionTaskQueue.update((queue) => [...queue, ...predictionTasks]);
+};
 
-	if (processing === undefined) {
-		if (queue.length > 0) {
-			processingQueue.set(queue[0].id);
-		}
-	} else {
-		const index = queue.findIndex((prediction) => prediction.id === processing) + 1;
+const processPredictionTask = (predictionTask: PredictionTask) => {
+	processingPredictionTasks.update((tasks) => [...tasks, predictionTask]);
 
-		if (index < queue.length) {
-			processingQueue.set(queue[index].id);
-		}
+	let promise: Promise<PredictionResult> | undefined;
+
+	if (predictionTask.type === 'text') {
+		promise = predict(
+			predictionTask.input.text,
+			predictionTask.includeCNN,
+			(data: PartialResult) => {
+				predictionTask.partialResult = data;
+				refreshProcessingPredictionTasks();
+			}
+		);
+	} else if (predictionTask.type === 'file') {
+		promise = predictFromFile(
+			predictionTask.input.file,
+			predictionTask.includeCNN,
+			(data: PartialResult) => {
+				predictionTask.partialResult = data;
+				refreshProcessingPredictionTasks();
+			}
+		);
+	}
+
+	if (promise) {
+		predictionTask.isProcessing = true;
+		promise
+			.then((result: PredictionResult) => {
+				predictionTask.callback?.(result);
+
+				nextPredictionTask();
+				completePredictionTask(predictionTask);
+
+				userResults.update((results) => [{ ...result, _new: true }, ...results]);
+			})
+			.catch((e) => {
+				console.log(e);
+				nextPredictionTask();
+			})
+			.finally(() => {});
 	}
 };
 
-predictionQueue.subscribe(() => {
-	nextInQueue();
-});
+export const nextPredictionTask = () => {
+	const queue = get(predictionTaskQueue);
+	const predictionTask = queue.shift();
 
-export const predictionResultId = writable();
+	if (!predictionTask) {
+		return;
+	}
+
+	predictionTaskQueue.set([...queue]);
+	processPredictionTask(predictionTask);
+};
+
+export const completePredictionTask = (predictionTask: PredictionTask) => {
+	processingPredictionTasks.update((tasks) =>
+		tasks.filter((task) => task.id !== predictionTask.id)
+	);
+};
+
+export const refreshProcessingPredictionTasks = () => {
+	processingPredictionTasks.update((tasks) => tasks);
+};
+
+predictionTaskQueue.subscribe(() => {
+	if (get(processingPredictionTasks).length === 0) {
+		nextPredictionTask();
+	}
+});

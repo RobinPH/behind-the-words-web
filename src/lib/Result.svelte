@@ -26,7 +26,7 @@
 		return finalResult;
 	})();
 
-	$: probability = result ? Math.round(result.result.probability * 100 * 100) / 100 : 0;
+	$: probability = result ? Math.round(result.result.probability * 100 * 10) / 10 : 0;
 </script>
 
 {#if result}
@@ -55,8 +55,8 @@
 			</div>
 			<div class="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-600">
 				<div
-					class="radial-progress"
-					style={`--value: ${probability}; --size: 6rem; --thickness: 1rem;`}
+					class="text-2xl font-bold radial-progress"
+					style={`--value: ${probability}; --size: 6.5rem; --thickness: 0.5rem;`}
 				>
 					{probability}%
 				</div>

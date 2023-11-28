@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
-	import { predictionQueue } from '../stores/store';
+	import { queuePredictionTasks } from '../stores/store';
 	export let text: string;
 	export let resultId: any;
 	export let includeCNN = false;
@@ -30,23 +30,8 @@
 		class="btn btn-info"
 		disabled={isLoading}
 		on:click={async () => {
-			// predictionTask = {
-			// 	id: uuidv4(),
-			// 	type: 'text',
-			// 	input: {
-			// 		text
-			// 	},
-			// 	includeCNN
-			// };
-
-			// isLoading = true;
-
-			// error = null;
-
-			// result = null;
-
-			predictionQueue.set([
-				{
+			if (text.length > 0) {
+				queuePredictionTasks({
 					id: uuidv4(),
 					type: 'text',
 					input: {
@@ -56,20 +41,8 @@
 					callback: (result) => {
 						resultId = result.id;
 					}
-				}
-			]);
-
-			// predict(text, includeCNN)
-			// 	.then((res) => {
-			// 		result = res;
-			// 		updateUserResults();
-			// 	})
-			// 	.catch((e) => {
-			// 		error = e;
-			// 	})
-			// 	.finally(() => {
-			// 		isLoading = false;
-			// 	});
+				});
+			}
 		}}
 	>
 		{#if isLoading}

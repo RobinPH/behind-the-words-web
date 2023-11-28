@@ -7,7 +7,7 @@
 
 	export let result: any;
 
-	$: probability = result ? Math.round(result.result.probability * 100 * 100) / 100 : 0;
+	$: probability = result ? Math.round(result.result.probability * 100 * 10) / 10 : 0;
 	$: icon = probability < 50 ? '🧑' : '🤖';
 </script>
 
@@ -35,28 +35,26 @@
 		});
 	}}
 >
-	<div class="mx-4 my-2">
-		{#if result.text.length > 0}
-			<div class="flex justify-between gap-2">
-				<div class="truncate">
-					{result.text.slice(0, 128)}
-				</div>
-				<p class="text-xs font-bold text-right min-w-fit">
-					{probability}%
-				</p>
+	<div class="flex gap-1 mx-4 my-2">
+		<div class="flex flex-col w-full gap-2 truncate">
+			<div class="flex">
+				<span>{icon}</span>
+				{#if result.text.length === 0}
+					<p class="italic text-gray-400 truncate">No preview.</p>
+				{:else}
+					<p class="truncate">{result.text.slice(0, 128)}</p>
+				{/if}
 			</div>
-			<div class="flex justify-between">
-				<p class="w-full text-xs italic text-gray-400">
-					{#if result.filename}
-						{result.filename}
-					{/if}
-				</p>
-				<p class="text-xs font-bold text-right min-w-fit">
-					{icon}
-				</p>
-			</div>
-		{:else}
-			<p class="text-sm italic text-gray-400">No Title.</p>
-		{/if}
+			<p class="w-full text-xs italic text-gray-400">
+				{#if result.filename}
+					{result.filename}
+				{/if}
+			</p>
+		</div>
+		<div class="flex items-center justify-center min-w-fit">
+			<p class="text-xl font-bold text-right min-w-fit">
+				{probability}%
+			</p>
+		</div>
 	</div>
 </div>

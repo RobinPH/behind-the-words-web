@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
-	import { predictionQueue } from '../stores/store';
+	import { queuePredictionTasks } from '../stores/store';
 	import { openSidebar } from '../utils/sidebar';
 
 	export let text: string;
@@ -41,9 +41,8 @@
 	on:change={async (event) => {
 		event.preventDefault();
 
-		predictionQueue.set(
-			// @ts-ignore
-			Array.from(event.target.files).map((file) => {
+		queuePredictionTasks(
+			...Array.from(event.target.files).map((file) => {
 				return {
 					id: uuidv4(),
 					type: 'file',
@@ -56,6 +55,22 @@
 				};
 			})
 		);
+
+		// predictionQueue.set(
+		// 	// @ts-ignore
+		// 	Array.from(event.target.files).map((file) => {
+		// 		return {
+		// 			id: uuidv4(),
+		// 			type: 'file',
+		// 			input: {
+		// 				// @ts-ignore
+		// 				filename: file.name,
+		// 				file
+		// 			},
+		// 			includeCNN
+		// 		};
+		// 	})
+		// );
 
 		openSidebar();
 
