@@ -36,7 +36,7 @@
 	}}
 >
 	<div class="flex gap-1 mx-4 my-2">
-		<div class="flex flex-col w-full gap-2 truncate">
+		<div class="flex flex-col w-full truncate">
 			<div class="flex">
 				<span>{icon}</span>
 				{#if result.text.length === 0}
