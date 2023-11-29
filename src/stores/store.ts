@@ -43,7 +43,7 @@ viewingResult.subscribe((result) => {
 	);
 });
 
-export const isFetchingResult = writable(true);
+export const isFetchingResult = writable(false);
 
 export const predictionTaskQueue = writable<PredictionTask[]>([]);
 

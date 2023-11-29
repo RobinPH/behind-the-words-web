@@ -6,6 +6,8 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 
+	isFetchingResult.set(true);
+
 	onMount(async () => {
 		setViewingResultId(data.id);
 	});

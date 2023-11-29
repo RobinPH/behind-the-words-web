@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getResult } from '$lib/BackendUtils';
 	import FileUpload from '$lib/FileUpload.svelte';
 	import { getLocalStorageItem, setLocalStorageItem } from '$lib/LocalStorageUtils';
 	import Predict from '$lib/Predict.svelte';
@@ -9,16 +8,6 @@
 	import { isFetchingResult, viewingResult } from '../stores/store';
 
 	let text = '';
-
-	let result: any;
-	let resultId: any;
-
-	$: if (resultId) {
-		result = null;
-		getResult(resultId).then((res) => {
-			result = res;
-		});
-	}
 
 	let includeCNN: boolean;
 
@@ -38,7 +27,7 @@
 	</div>
 	<div class="flex flex-col items-end justify-between w-full gap-2 md:items-center md:flex-row">
 		<FileUpload bind:text bind:baseUrl bind:error bind:includeCNN />
-		<Predict bind:text bind:resultId bind:includeCNN bind:baseUrl bind:error />
+		<Predict bind:text bind:includeCNN bind:baseUrl bind:error />
 	</div>
 	{#if error}
 		<div class="alert alert-error">
