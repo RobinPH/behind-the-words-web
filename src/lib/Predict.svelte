@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
-	import { queuePredictionTasks } from '../stores/store';
+	import { queuePredictionTasks, setViewingResultId, viewingResult } from '../stores/store';
 	export let text: string;
 	export let resultId: any;
 	export let includeCNN = false;
@@ -31,6 +31,7 @@
 		disabled={isLoading}
 		on:click={async () => {
 			if (text.length > 0) {
+				viewingResult.set(null);
 				queuePredictionTasks({
 					id: uuidv4(),
 					type: 'text',
@@ -39,7 +40,9 @@
 					},
 					includeCNN,
 					callback: (result) => {
-						resultId = result.id;
+						// resultId = result.id;
+
+						setViewingResultId(result.id);
 					}
 				});
 			}

@@ -1,19 +1,13 @@
 <script lang="ts">
-	import { getResult } from '$lib/BackendUtils';
 	import Card from '$lib/Card.svelte';
 	import Result from '$lib/Result.svelte';
 	import { onMount } from 'svelte';
-	import { isFetchingResult, viewingResult } from '../../../stores/store';
+	import { isFetchingResult, setViewingResultId, viewingResult } from '../../../stores/store';
 	import type { PageData } from './$types';
 	export let data: PageData;
 
 	onMount(async () => {
-		isFetchingResult.set(true);
-		const result = await getResult(data.id);
-
-		viewingResult.set(result);
-
-		isFetchingResult.set(false);
+		setViewingResultId(data.id);
 	});
 </script>
 

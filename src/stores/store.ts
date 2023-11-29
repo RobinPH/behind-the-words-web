@@ -1,4 +1,4 @@
-import { getUserResults, predict, predictFromFile } from '$lib/BackendUtils';
+import { getResult, getUserResults, predict, predictFromFile } from '$lib/BackendUtils';
 import { getLocalStorageItem } from '$lib/LocalStorageUtils';
 import { get, writable } from 'svelte/store';
 import type { PartialResult, PredictionResult, PredictionTask } from '../types/types';
@@ -11,6 +11,37 @@ export const updateUserResults = async () => {
 };
 
 export const viewingResult = writable();
+
+export const setViewingResultId = (id: string) => {
+	viewingResult.set(null);
+	isFetchingResult.set(true);
+
+	getResult(id)
+		.then((result) => {
+			viewingResult.set(result);
+		})
+		.finally(() => {
+			isFetchingResult.set(false);
+		});
+};
+
+viewingResult.subscribe((result) => {
+	if (!result) {
+		return;
+	}
+
+	userResults.update((results) =>
+		results.map((res) => {
+			if (res._new) {
+				if (res.id === result.id) {
+					res._new = false;
+				}
+			}
+
+			return res;
+		})
+	);
+});
 
 export const isFetchingResult = writable(true);
 

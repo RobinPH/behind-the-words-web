@@ -6,6 +6,7 @@
 	import Result from '$lib/Result.svelte';
 	import TextareaInput from '$lib/TextareaInput.svelte';
 	import { v4 as uuidv4 } from 'uuid';
+	import { isFetchingResult, viewingResult } from '../stores/store';
 
 	let text = '';
 
@@ -56,7 +57,11 @@
 			<span>Error: {error}</span>
 		</div>
 	{/if}
-	{#if result}
-		<Result {result} />
+	{#if $isFetchingResult}
+		<div class="flex items-center justify-center w-full">
+			<span class="loading loading-bars loading-lg" />
+		</div>
+	{:else if $viewingResult}
+		<Result result={$viewingResult} />
 	{/if}
 </div>

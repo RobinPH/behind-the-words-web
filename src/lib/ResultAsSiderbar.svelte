@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import cx from 'classnames';
-	import { isFetchingResult, userResults, viewingResult } from '../stores/store';
+	import { setViewingResultId, viewingResult } from '../stores/store';
 	import { closeSidebar } from '../utils/sidebar';
-	import { getResult } from './BackendUtils';
 
 	export let result: any;
 
@@ -20,23 +19,8 @@
 	)}
 	on:click={() => {
 		closeSidebar();
-		isFetchingResult.set(true);
-		viewingResult.set(null);
-		getResult(result.id).then((result) => {
-			viewingResult.set(result);
-			isFetchingResult.set(false);
-		});
+		setViewingResultId(result.id);
 		goto(`/result/${result.id}`);
-
-		userResults.update((results) => {
-			return results.map((res) => {
-				if (res === result) {
-					delete result._new;
-				}
-
-				return res;
-			});
-		});
 	}}
 >
 	<div class="flex gap-1 mx-4 my-2">
