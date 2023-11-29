@@ -12,6 +12,8 @@ export const updateUserResults = async () => {
 
 export const viewingResult = writable();
 
+export const isFetchingResult = writable(true);
+
 export const predictionTaskQueue = writable<PredictionTask[]>([]);
 
 export const processingPredictionTasks = writable<PredictionTask[]>([]);

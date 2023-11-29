@@ -3,18 +3,17 @@
 	import Card from '$lib/Card.svelte';
 	import Result from '$lib/Result.svelte';
 	import { onMount } from 'svelte';
-	import { viewingResult } from '../../../stores/store';
+	import { isFetchingResult, viewingResult } from '../../../stores/store';
 	import type { PageData } from './$types';
 	export let data: PageData;
 
-	let isLoading = true;
-
 	onMount(async () => {
+		isFetchingResult.set(true);
 		const result = await getResult(data.id);
 
 		viewingResult.set(result);
 
-		isLoading = false;
+		isFetchingResult.set(false);
 	});
 </script>
 
@@ -40,7 +39,7 @@
 		<Result result={$viewingResult} />
 	{:else}
 		<div class="flex items-center justify-center w-full">
-			{#if isLoading}
+			{#if $isFetchingResult}
 				<span class="loading loading-bars loading-lg" />
 			{:else}
 				<Card><p class="font-bold">Result not found</p></Card>

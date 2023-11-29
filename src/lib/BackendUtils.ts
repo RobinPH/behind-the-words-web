@@ -3,7 +3,7 @@ import { default as axios } from 'axios';
 import { getLocalStorageItem } from './LocalStorageUtils';
 
 const getBaseUrl = () => {
-	return getLocalStorageItem('override-backend-url', 'https://885f-128-199-73-133.ngrok-free.app');
+	return getLocalStorageItem('override-backend-url', 'http://outgoing-alien-active.ngrok-free.app');
 	// return getLocalStorageItem('override-backend-url', 'http://127.0.0.1:6060');
 };
 

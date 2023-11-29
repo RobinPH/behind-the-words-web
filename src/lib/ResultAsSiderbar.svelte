@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import cx from 'classnames';
-	import { userResults, viewingResult } from '../stores/store';
+	import { isFetchingResult, userResults, viewingResult } from '../stores/store';
 	import { closeSidebar } from '../utils/sidebar';
 	import { getResult } from './BackendUtils';
 
@@ -20,8 +20,12 @@
 	)}
 	on:click={() => {
 		closeSidebar();
-		getResult(result.id).then(viewingResult.set);
-		// viewingResult.set(result);
+		isFetchingResult.set(true);
+		viewingResult.set(null);
+		getResult(result.id).then((result) => {
+			viewingResult.set(result);
+			isFetchingResult.set(false);
+		});
 		goto(`/result/${result.id}`);
 
 		userResults.update((results) => {
