@@ -4,6 +4,10 @@
 	import { viewingResult } from '../stores/store';
 </script>
 
+<svelte:head>
+	<title>Behind the Words</title>
+</svelte:head>
+
 <div data-theme="dracula" class="min-h-screen">
 	<div class="drawer">
 		<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
