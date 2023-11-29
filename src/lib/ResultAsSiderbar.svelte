@@ -15,7 +15,7 @@
 	class={cx(
 		'block max-w-full text-sm duration-150 border-2 border-transparent rounded-md hover:bg-base-100 hover:cursor-pointer hover:translate-x-1',
 		result._new && '!border-success',
-		$viewingResult && $viewingResult.id === result.id && '!border-info'
+		$viewingResult && $viewingResult.id === result.id && '!border-info bg-gray-700'
 	)}
 	on:click={() => {
 		closeSidebar();
