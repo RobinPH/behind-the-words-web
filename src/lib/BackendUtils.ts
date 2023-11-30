@@ -2,11 +2,11 @@ import { default as axios } from 'axios';
 
 import { getLocalStorageItem } from './LocalStorageUtils';
 
-const BACKUP_ENDPOINT = 'https://outgoing-alien-active.ngrok-free.app';
+const BACKUP_ENDPOINT = 'http://outgoing-alien-active.ngrok-free.app';
 
 const getBaseUrl = async () => {
 	const url = getLocalStorageItem('override-backend-url', 'http://172.20.10.7:6060/');
-	// const url = getLocalStorageItem('override-backend-url', 'http://outgoing-alien-active.ngrok-free.app');
+	// const url = getLocalStorageItem('override-backend-url', 'http://outgoing-aliegitn-active.ngrok-free.app');
 
 	try {
 		await axios.get(new URL('ping', url).toString(), {
