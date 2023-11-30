@@ -2,18 +2,36 @@ import { default as axios } from 'axios';
 
 import { getLocalStorageItem } from './LocalStorageUtils';
 
-const getBaseUrl = () => {
-	return getLocalStorageItem('override-backend-url', 'http://outgoing-alien-active.ngrok-free.app');
-	// return getLocalStorageItem('override-backend-url', 'http://127.0.0.1:6060');
+const BACKUP_ENDPOINT = 'https://outgoing-alien-active.ngrok-free.app';
+
+const getBaseUrl = async () => {
+	const url = getLocalStorageItem('override-backend-url', 'http://172.20.10.7:6060/');
+	// const url = getLocalStorageItem('override-backend-url', 'http://outgoing-alien-active.ngrok-free.app');
+
+	try {
+		await axios.get(new URL('ping', url).toString(), {
+			timeout: 200
+		});
+
+		return url;
+	} catch (e) {
+		return new URL(BACKUP_ENDPOINT).toString();
+	}
 };
 
-const makeEndpoint = (endpoint: string) => {
-	const baseUrl = getBaseUrl();
+const makeEndpoint = async (endpoint: string, useBackup = false) => {
+	const baseUrl = useBackup ? BACKUP_ENDPOINT : await getBaseUrl();
 
 	try {
 		const url = new URL(endpoint, baseUrl);
 
-		if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+		if (
+			url.hostname === 'localhost' ||
+			url.hostname === '127.0.0.1' ||
+			url.hostname.startsWith('172') ||
+			url.hostname.startsWith('192') ||
+			url.hostname.startsWith('127')
+		) {
 			return url.toString();
 		} else {
 			return url.toString().replace(/^http:\/\//i, 'https://');
@@ -28,20 +46,23 @@ export const predict = (
 	includeCNN = false,
 	partialCallback: PartialResultCallback = () => {}
 ) => {
-	return streamRequest<PredictionResult>(
-		'POST',
-		makeEndpoint('/predict'),
-		JSON.stringify({
-			text: txt,
-			user_id: getLocalStorageItem('user-id'),
-			include_cnn: includeCNN
-		}),
-		{
-			'Content-Type': 'application/json',
-			'ngrok-skip-browser-warning': 1
-		},
-		partialCallback
-	);
+	return makeEndpoint('/predict').then((endpoint) => {
+		console.log({ endpoint });
+		return streamRequest<PredictionResult>(
+			'POST',
+			endpoint,
+			JSON.stringify({
+				text: txt,
+				user_id: getLocalStorageItem('user-id'),
+				include_cnn: includeCNN
+			}),
+			{
+				'Content-Type': 'application/json',
+				'ngrok-skip-browser-warning': 1
+			},
+			partialCallback
+		);
+	});
 	// return new Promise((resolve, reject) => {
 	// 	axios
 	// 		.post(
@@ -117,13 +138,9 @@ export const predictFromFile = (
 		})
 	);
 
-	return streamRequest<PredictionResult>(
-		'POST',
-		makeEndpoint('/predict-from-file'),
-		data,
-		{},
-		partialCallback
-	);
+	return makeEndpoint('/predict-from-file').then((endpoint) => {
+		return streamRequest<PredictionResult>('POST', endpoint, data, {}, partialCallback);
+	});
 
 	// return new Promise((resolve, reject) => {
 	// 	axios
@@ -140,36 +157,40 @@ export const predictFromFile = (
 
 export const getResult = (id: string) => {
 	return new Promise((resolve, reject) => {
-		axios
-			.get(makeEndpoint(`/result/${id}`), {
-				headers: {
-					'ngrok-skip-browser-warning': 1
-				}
-			})
-			.then((response) => resolve(response.data))
-			.catch(reject);
+		makeEndpoint(`/result/${id}`).then((endpoint) => {
+			axios
+				.get(endpoint, {
+					headers: {
+						'ngrok-skip-browser-warning': 1
+					}
+				})
+				.then((response) => resolve(response.data))
+				.catch(reject);
+		});
 	});
 };
 
 export const clearHistory = () => {
 	return new Promise((resolve, reject) => {
-		axios
-			.post(
-				makeEndpoint(`/clear-history`),
-				{
-					user_id: getLocalStorageItem('user-id')
-				},
-				{
-					headers: {
-						'ngrok-skip-browser-warning': 1
+		makeEndpoint(`/clear-history`).then((endpoint) => {
+			axios
+				.post(
+					endpoint,
+					{
+						user_id: getLocalStorageItem('user-id')
+					},
+					{
+						headers: {
+							'ngrok-skip-browser-warning': 1
+						}
 					}
-				}
-			)
-			.then((response) => {
-				resolve(response.data);
-				updateUserResults();
-			})
-			.catch(reject);
+				)
+				.then((response) => {
+					resolve(response.data);
+					updateUserResults();
+				})
+				.catch(reject);
+		});
 	});
 };
 
@@ -224,14 +245,16 @@ const streamRequest = <T>(method, url, body, headers = {}, callback = () => {}) 
 
 export const getUserResults = (id: string) => {
 	return new Promise<PredictionResult[]>((resolve, reject) => {
-		axios
-			.get(makeEndpoint(`/user/${id}`), {
-				headers: {
-					'ngrok-skip-browser-warning': 1
-				}
-			})
-			.then((response) => resolve(response.data))
-			.catch(reject);
+		makeEndpoint(`/user/${id}`).then((endpoint) => {
+			axios
+				.get(endpoint, {
+					headers: {
+						'ngrok-skip-browser-warning': 1
+					}
+				})
+				.then((response) => resolve(response.data))
+				.catch(reject);
+		});
 	});
 };
 

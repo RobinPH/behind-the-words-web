@@ -18,7 +18,7 @@
 <Card>
 	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Sentiment</h1>
-		<div class="underline">
+		<div class="underline min-w-fit">
 			<span>{score}</span>
 		</div>
 	</div>

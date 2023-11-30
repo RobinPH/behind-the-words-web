@@ -26,7 +26,7 @@
 <Card>
 	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Misspelled Words</h1>
-		<div class="underline">
+		<div class="underline min-w-fit">
 			<span>{props.metadata.mispelled_words.length}</span>
 			<span> out of </span>
 			<span>{props.result._word_count}</span>
