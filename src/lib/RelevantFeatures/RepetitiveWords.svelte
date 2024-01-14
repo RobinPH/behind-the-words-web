@@ -7,7 +7,7 @@
 		id: string;
 		metadata: {
 			repetitive_words: RepetitiveWord[];
-			_word_count: number;
+			word_count: number;
 		};
 		result: {
 			repetitive_words: number;
@@ -19,8 +19,8 @@
 		'Calculates the number of repeated words in a text. The percentage of duplicate words to the number of words in a text.';
 
 	const repeats =
-		props.metadata.repetitive_words.reduce((acc, val) => acc + val[1], 0) -
-		props.metadata.repetitive_words.length;
+		props.metadata.word_frequency.reduce((acc, val) => acc + val[1], 0) -
+		props.metadata.word_frequency.length;
 </script>
 
 <Card>
@@ -29,9 +29,9 @@
 		<div class="underline min-w-fit">
 			<span>{repeats}</span>
 			<span> out of </span>
-			<span>{props.metadata._word_count}</span>
+			<span>{props.metadata.word_count}</span>
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="w-full progress" value={repeats} max={props.metadata._word_count} />
+	<progress class="w-full progress" value={repeats} max={props.metadata.word_count} />
 </Card>

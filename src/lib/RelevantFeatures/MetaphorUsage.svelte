@@ -4,13 +4,13 @@
 	type Props = {
 		id: string;
 		metadata: {
-			sentences: {
+			scores: {
 				sentence: string;
 				score: number;
 			}[];
 		};
 		result: {
-			metaphor_usage_score: number;
+			metaphor_usage: number;
 		};
 	};
 
@@ -18,7 +18,7 @@
 	export let description =
 		'The metaphor usage score for each sentence and calcuate the average, the methodology is based on the principles outlined in the study conducted by Gao, E. Choi, et.al (2018).';
 
-	const score = Math.round(props.result.metaphor_usage_score * 100 * 100) / 100;
+	const score = Math.round(props.result.metaphor_usage * 100 * 100) / 100;
 
 	const formatScore = (score: number) => Math.round(score * 100 * 100) / 100;
 </script>
@@ -31,10 +31,10 @@
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="w-full progress" value={props.result.metaphor_usage_score} max={1} />
+	<progress class="w-full progress" value={props.result.metaphor_usage} max={1} />
 
 	<div class="flex flex-col gap-4 pt-4 overflow-y-auto max-h-96">
-		{#each props.metadata.sentences as { sentence, score }}
+		{#each props.metadata.scores as { sentence, score }}
 			<div class="p-4 rounded-lg bg-slate-600">
 				<div>
 					<span class="font-semibold">Sentence: </span>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import cx from 'classnames';
 	export let text: string;
-	export let maxLength: number = 2056;
+	export let maxLength: number = 2048;
 </script>
 
 <div class="w-full h-[60vh]">

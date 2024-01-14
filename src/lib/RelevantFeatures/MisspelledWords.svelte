@@ -10,11 +10,10 @@
 	type Props = {
 		id: string;
 		metadata: {
-			mispelled_words: MispelledWord[];
+			word_count: number;
 		};
 		result: {
-			mispelled_words: number;
-			_word_count: number;
+			misspelled_words: number;
 		};
 	};
 
@@ -27,15 +26,15 @@
 	<div class="flex items-center justify-between gap-2 text-2xl">
 		<h1 class="font-bold">Misspelled Words</h1>
 		<div class="underline min-w-fit">
-			<span>{props.metadata.mispelled_words.length}</span>
+			<span>{Math.round(props.result.misspelled_words * props.metadata.word_count)}</span>
 			<span> out of </span>
-			<span>{props.result._word_count}</span>
+			<span>{props.metadata.word_count}</span>
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
 	<progress
 		class="w-full progress"
-		value={props.metadata.mispelled_words.length}
-		max={props.result._word_count}
+		value={props.result.misspelled_words}
+		max={props.metadata.word_count}
 	/>
 </Card>

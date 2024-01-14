@@ -9,7 +9,6 @@
 	import ReadabilityScore from '$lib/RelevantFeatures/ReadabilityScore.svelte';
 	import RepetitiveWords from '$lib/RelevantFeatures/RepetitiveWords.svelte';
 	import Sentiment from '$lib/RelevantFeatures/Sentiment.svelte';
-	import Subjectivity from '$lib/RelevantFeatures/Subjectivity.svelte';
 	import Card from './Card.svelte';
 
 	export let result: any;
@@ -23,6 +22,7 @@
 				finalResult[r.id] = r;
 			}
 
+		console.log(finalResult);
 		return finalResult;
 	})();
 
@@ -65,7 +65,7 @@
 		</div>
 	</Card>
 	{#if finalResult.cnn_prediction} <CNNPrediction props={finalResult.cnn_prediction} /> {/if}
-	{#if finalResult.mispelled_words} <MisspelledWords props={finalResult.mispelled_words} /> {/if}
+	{#if finalResult.misspelled_words} <MisspelledWords props={finalResult.misspelled_words} /> {/if}
 	{#if finalResult.grammar_score} <GrammarScore props={finalResult.grammar_score} /> {/if}
 	{#if finalResult.repetitive_words}
 		<RepetitiveWords props={finalResult.repetitive_words} />
@@ -75,12 +75,12 @@
 	{#if finalResult.readability_score}
 		<ReadabilityScore props={finalResult.readability_score} />
 	{/if}
-	{#if finalResult.metaphor_usage_score}
-		<MetaphorUsage props={finalResult.metaphor_usage_score} />
+	{#if finalResult.metaphor_usage}
+		<MetaphorUsage props={finalResult.metaphor_usage} />
 	{/if}
 	{#if finalResult.lexical_diversity}
 		<LexicalDiversity props={finalResult.lexical_diversity} />
 	{/if}
 	{#if finalResult.sentiment} <Sentiment props={finalResult.sentiment} /> {/if}
-	{#if finalResult.subjectivity} <Subjectivity props={finalResult.subjectivity} /> {/if}
+	<!-- {#if finalResult.subjectivity} <Subjectivity props={finalResult.subjectivity} /> {/if} -->
 {/if}
