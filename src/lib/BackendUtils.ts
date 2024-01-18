@@ -5,8 +5,11 @@ import { getLocalStorageItem } from './LocalStorageUtils';
 const BACKUP_ENDPOINT = 'http://outgoing-alien-active.ngrok-free.app';
 
 const getBaseUrl = async () => {
-	const url = getLocalStorageItem('override-backend-url', 'http://127.0.0.1:6060/');
-	// const url = getLocalStorageItem('override-backend-url', 'http://outgoing-aliegitn-active.ngrok-free.app');
+	// const url = getLocalStorageItem('override-backend-url', 'http://127.0.0.1:6060/');
+	const url = getLocalStorageItem(
+		'override-backend-url',
+		'http://outgoing-aliegitn-active.ngrok-free.app'
+	);
 
 	try {
 		await axios.get(new URL('ping', url).toString(), {
