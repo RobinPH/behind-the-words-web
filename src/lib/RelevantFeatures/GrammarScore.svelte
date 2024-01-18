@@ -20,7 +20,7 @@
 	export let description =
 		'A score indicating the number and severity of grammar errors in a text.';
 
-	const score = Math.round(props.result.grammar_score * 100 * 100) / 100;
+	const score = Math.round(props.results.grammar_score * 100 * 100) / 100;
 </script>
 
 <Card>
@@ -31,7 +31,7 @@
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="w-full progress" value={props.result.grammar_score} max={1} />
+	<progress class="w-full progress" value={props.results.grammar_score} max={1} />
 	<div class="flex flex-col gap-4 pt-4 overflow-y-auto max-h-96">
 		{#each props.metadata.errors_formatted as { message, context, errorLength, offsetInContext }}
 			<div class="p-4 rounded-lg bg-slate-600">

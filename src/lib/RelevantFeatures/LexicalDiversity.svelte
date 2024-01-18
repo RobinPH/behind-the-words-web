@@ -113,13 +113,13 @@
 				<div class="flex justify-between">
 					<h1 class="font-semibold">{lexicalDiversityMetadata[key].label}</h1>
 					<div class="underline">
-						<span>{formatScore(props.result.lexical_diversity[key])}</span>
+						<span>{formatScore(props.results.lexical_diversity[key])}</span>
 					</div>
 				</div>
 				<p class="text-gray-400">{lexicalDiversityMetadata[key].description}</p>
 				<progress
 					class="w-full progress"
-					value={props.result.lexical_diversity[key]}
+					value={props.results.lexical_diversity[key]}
 					max={lexicalDiversityMetadata[key].max}
 				/>
 			</div>

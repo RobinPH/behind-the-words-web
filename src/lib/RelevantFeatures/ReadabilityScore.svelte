@@ -98,13 +98,13 @@
 				<div class="flex justify-between">
 					<h1 class="font-semibold">{readabilityScoreMetadata[key].label}</h1>
 					<div class="underline">
-						<span>{formatScore(props.result.readability_score[key])}</span>
+						<span>{formatScore(props.results.readability_score[key])}</span>
 					</div>
 				</div>
 				<p class="text-gray-400">{readabilityScoreMetadata[key].description}</p>
 				<progress
 					class="w-full progress"
-					value={props.result.readability_score[key]}
+					value={props.results.readability_score[key]}
 					max={readabilityScoreMetadata[key].max}
 				/>
 			</div>

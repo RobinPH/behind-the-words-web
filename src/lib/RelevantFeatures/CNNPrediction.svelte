@@ -11,7 +11,7 @@
 	export let props: Props;
 	export let description = 'LLM Prediction using CNN';
 
-	const score = Math.round(props.result.cnn_prediction * 100 * 100) / 100;
+	const score = Math.round(props.results.cnn_prediction * 100 * 100) / 100;
 </script>
 
 <Card>
@@ -22,5 +22,5 @@
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="w-full progress" value={props.result.cnn_prediction} max={1} />
+	<progress class="w-full progress" value={props.results.cnn_prediction} max={1} />
 </Card>

@@ -12,7 +12,7 @@
 	export let description =
 		"Measures the degree of subjectivity in the text, reflecting the extent to which the author's opinions or feelings influence the content, it uses the TextBlob Python library for sentiment analysis. The subjectivity score is computed through the TextBlob library.";
 
-	const score = Math.round(props.result.subjectivity * 100 * 100) / 100;
+	const score = Math.round(props.results.subjectivity * 100 * 100) / 100;
 </script>
 
 <Card>
@@ -23,5 +23,5 @@
 		</div>
 	</div>
 	<p class="text-gray-400">{description}</p>
-	<progress class="w-full progress" value={props.result.subjectivity} max={1} />
+	<progress class="w-full progress" value={props.results.subjectivity} max={1} />
 </Card>

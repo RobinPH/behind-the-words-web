@@ -12,17 +12,21 @@
 	import Card from './Card.svelte';
 
 	export let result: any;
+	export let threshold = 0.5;
 
 	$: finalResult = (() => {
 		const finalResult = {};
 
-		if (result && result.result)
+		if (result && result.result) {
 			for (const r of result.result.results) {
 				// @ts-ignore
 				finalResult[r.id] = r;
 			}
 
-		console.log(finalResult);
+			threshold = result.result.threshold;
+		}
+
+		// console.log(result);
 		return finalResult;
 	})();
 
@@ -38,20 +42,23 @@
 	</Card>
 	<Card>
 		<div class="flex justify-between w-full gap-2">
-			<div class="flex flex-col gap-2">
-				{#if probability < 50}
-					<div class="text-4xl font-bold">Human 🧑</div>
-					<div>
-						Your essay is likely written by <span class="text-lg"><strong>Human</strong></span>
-					</div>
-				{:else}
-					<div class="text-4xl font-bold">LLM 🤖</div>
-					<div>
-						Your essay is likely written by <span class="text-lg"
-							><strong>Large Language Model (LLM)</strong></span
-						>
-					</div>
-				{/if}
+			<div class="flex flex-col justify-between">
+				<div class="flex flex-col gap-2">
+					{#if probability < threshold * 100}
+						<div class="text-4xl font-bold">Human 🧑</div>
+						<div>
+							Your essay is likely written by <span class="text-lg"><strong>Human</strong></span>
+						</div>
+					{:else}
+						<div class="text-4xl font-bold">LLM 🤖</div>
+						<div>
+							Your essay is likely written by <span class="text-lg"
+								><strong>Large Language Model (LLM)</strong></span
+							>
+						</div>
+					{/if}
+				</div>
+				<div>Threshold: {Math.round(threshold * 100 * 100) / 100}%</div>
 			</div>
 			<div class="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-600">
 				<div

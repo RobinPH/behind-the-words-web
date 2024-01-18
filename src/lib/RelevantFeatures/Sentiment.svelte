@@ -45,13 +45,13 @@
 				<div class="flex justify-between">
 					<h1 class="font-semibold">{sentimentMetadata[key].label}</h1>
 					<div class="underline">
-						<span>{formatScore(props.result.sentiment[key])}</span>
+						<span>{formatScore(props.results.sentiment[key])}</span>
 					</div>
 				</div>
 				<p class="text-gray-400">{sentimentMetadata[key].description}</p>
 				<progress
 					class="w-full progress"
-					value={props.result.sentiment[key] + -sentimentMetadata[key].min}
+					value={props.results.sentiment[key] + -sentimentMetadata[key].min}
 					max={sentimentMetadata[key].max + -sentimentMetadata[key].min}
 				/>
 			</div>

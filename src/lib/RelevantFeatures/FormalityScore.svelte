@@ -35,7 +35,7 @@
 	export let props: Props;
 	export let description = `Evaluates the level of formality of a text using Heylighen & Dewaele's (1999) F-measure.`;
 
-	const score = Math.round(props.result.formality_score * 100 * 100) / 100;
+	const score = Math.round(props.results.formality_score * 100 * 100) / 100;
 
 	onMount(() => {
 		let script = document.createElement('script');
@@ -76,7 +76,7 @@
 	<!-- <div class="flex justify-center w-full">
 		{formalityEquation}
 	</div> -->
-	<progress class="w-full progress" value={props.result.formality_score} max={1} />
+	<progress class="w-full progress" value={props.results.formality_score} max={1} />
 	<div class="flex flex-row flex-wrap gap-2 pt-4">
 		{#each show as key}
 			<div class="p-2 rounded-lg bg-slate-600">
