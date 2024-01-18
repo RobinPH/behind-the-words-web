@@ -34,7 +34,8 @@
 	<p class="text-gray-400">{description}</p>
 	<progress
 		class="w-full progress"
-		value={props.results.misspelled_words}
+		value={props.results.misspelled_words * props.metadata.word_count}
 		max={props.metadata.word_count}
 	/>
+	{props.results.misspelled_words}
 </Card>
