@@ -37,5 +37,4 @@
 		value={props.results.misspelled_words * props.metadata.word_count}
 		max={props.metadata.word_count}
 	/>
-	{props.results.misspelled_words}
 </Card>
