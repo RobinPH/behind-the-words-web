@@ -24,6 +24,9 @@
 	};
 
 	let isLoading = false;
+
+	let files: any;
+	let input: any;
 </script>
 
 <button class:hidden={!isLoading} class="btn btn-md btn-info" disabled>
@@ -31,12 +34,21 @@
 	loading
 </button>
 
+<label
+	for="files"
+	class:hidden={isLoading}
+	class="w-full max-w-xs btn btn-bordered btn-info max-w-fit"
+>
+	Choose files
+</label>
 <input
+	id="files"
 	type="file"
 	name="file"
-	class:hidden={isLoading}
-	class="w-full max-w-xs file-input file-input-bordered file-input-info"
+	class="hidden"
 	accept=".txt,.pdf,.docx,.doc"
+	bind:files
+	bind:this={input}
 	multiple
 	on:change={async (event) => {
 		event.preventDefault();
@@ -55,6 +67,8 @@
 				};
 			})
 		);
+
+		input.value = '';
 
 		// predictionQueue.set(
 		// 	// @ts-ignore

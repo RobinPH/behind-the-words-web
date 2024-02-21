@@ -49,6 +49,10 @@ export const predictionTaskQueue = writable<PredictionTask[]>([]);
 
 export const processingPredictionTasks = writable<PredictionTask[]>([]);
 
+export const clearPredictionTasks = () => {
+	predictionTaskQueue.set([]);
+};
+
 export const queuePredictionTasks = (...predictionTasks: PredictionTask[]) => {
 	predictionTaskQueue.update((queue) => [...queue, ...predictionTasks]);
 };

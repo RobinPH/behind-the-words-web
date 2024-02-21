@@ -190,6 +190,7 @@ export const clearHistory = () => {
 				)
 				.then((response) => {
 					resolve(response.data);
+					clearPredictionTasks();
 					updateUserResults();
 				})
 				.catch(reject);
@@ -262,7 +263,7 @@ export const getUserResults = (id: string) => {
 };
 
 import { writable } from 'svelte/store';
-import { updateUserResults } from '../stores/store';
+import { clearPredictionTasks, updateUserResults } from '../stores/store';
 import type { PartialResultCallback, PredictionResult } from '../types/types';
 
 const useResults = writable([]);
