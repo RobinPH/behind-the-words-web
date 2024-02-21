@@ -34,11 +34,7 @@
 	loading
 </button>
 
-<label
-	for="files"
-	class:hidden={isLoading}
-	class="w-full max-w-xs btn btn-bordered btn-info max-w-fit"
->
+<label for="files" class:hidden={isLoading} class="w-full btn btn-bordered btn-info md:max-w-fit">
 	Choose files
 </label>
 <input

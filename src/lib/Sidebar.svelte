@@ -23,7 +23,9 @@
 	});
 </script>
 
-<div class="flex flex-col h-full gap-2 p-4 border-r-4 w-72 bg-base-200 border-base-300">
+<div
+	class="flex flex-col h-full gap-2 p-4 border-r-4 w-72 bg-base-200 border-base-300 max-w-[90dvw]"
+>
 	<div class="flex flex-row items-center justify-between">
 		<h1 class="text-xl font-bold">HISTORY</h1>
 

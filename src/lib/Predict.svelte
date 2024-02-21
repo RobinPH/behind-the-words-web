@@ -9,7 +9,7 @@
 	let isLoading = false;
 </script>
 
-<div class="flex flex-col items-end gap-2 sm:items-center sm:flex-row">
+<div class="flex flex-row items-end gap-2 sm:items-center">
 	<div class="items-end justify-center form-control">
 		<label class="flex justify-end gap-2 cursor-pointer items label w-fit">
 			<span class="label-text">Include CNN</span>
