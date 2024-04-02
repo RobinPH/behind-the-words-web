@@ -2,7 +2,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { queuePredictionTasks, setViewingResultId, viewingResult } from '../stores/store';
 	export let text: string;
-	export let includeCNN = false;
+	export let includeCNN = true;
 	export let baseUrl: string = 'http://127.0.0.1:6060';
 	export let error: any;
 

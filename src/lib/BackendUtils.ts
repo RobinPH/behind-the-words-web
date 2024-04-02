@@ -2,14 +2,11 @@ import { default as axios } from 'axios';
 
 import { getLocalStorageItem } from './LocalStorageUtils';
 
-const BACKUP_ENDPOINT = 'http://outgoing-alien-active.ngrok-free.app/';
+const BACKUP_ENDPOINT = 'https://robinph.pythonanywhere.com/';
 
 const getBaseUrl = async () => {
 	// const url = getLocalStorageItem('override-backend-url', 'http://127.0.0.1:6060/');
-	const url = getLocalStorageItem(
-		'override-backend-url',
-		'http://outgoing-alien-active.ngrok-free.app/'
-	);
+	const url = getLocalStorageItem('override-backend-url', 'https://robinph.pythonanywhere.com/');
 
 	try {
 		await axios.get(new URL('ping', url).toString(), {
@@ -176,6 +173,7 @@ export const getResult = (id: string) => {
 export const clearHistory = () => {
 	return new Promise((resolve, reject) => {
 		makeEndpoint(`/clear-history`).then((endpoint) => {
+			userResults.set([]);
 			axios
 				.post(
 					endpoint,
@@ -263,7 +261,7 @@ export const getUserResults = (id: string) => {
 };
 
 import { writable } from 'svelte/store';
-import { clearPredictionTasks, updateUserResults } from '../stores/store';
+import { clearPredictionTasks, updateUserResults, userResults } from '../stores/store';
 import type { PartialResultCallback, PredictionResult } from '../types/types';
 
 const useResults = writable([]);
