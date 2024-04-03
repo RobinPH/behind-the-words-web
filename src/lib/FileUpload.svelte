@@ -49,6 +49,8 @@
 	on:change={async (event) => {
 		event.preventDefault();
 
+		document.getElementById('my-drawer-3').checked = true;
+
 		queuePredictionTasks(
 			...Array.from(event.target.files).map((file) => {
 				return {

@@ -30,7 +30,9 @@
 		disabled={isLoading}
 		on:click={async () => {
 			if (text.length > 0) {
+				isLoading = true;
 				viewingResult.set(null);
+				document.getElementById('my-drawer-3').checked = true;
 				queuePredictionTasks({
 					id: uuidv4(),
 					type: 'text',
@@ -42,6 +44,7 @@
 						// resultId = result.id;
 
 						setViewingResultId(result.id);
+						isLoading = false;
 					}
 				});
 			}
